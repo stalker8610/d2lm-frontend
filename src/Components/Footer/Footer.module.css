@@ -1,0 +1,5 @@
+.appFooter {
+    grid-area: f;
+    width: 100%;
+    text-align: center;
+}

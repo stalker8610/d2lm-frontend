@@ -1,0 +1,14 @@
+.selectorImg {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.container {
+    
+    grid-area: "selector";
+    text-align: center;
+    margin: 10px;
+    height: 70px;
+} 

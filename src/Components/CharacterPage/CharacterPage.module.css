@@ -1,0 +1,10 @@
+
+.container {
+    margin: 0px;
+    display: grid;
+    grid-template-areas: "selector" "data" ;
+
+    grid-template-rows: 100px 1fr;
+
+    /* background-color: #444444; */
+}
