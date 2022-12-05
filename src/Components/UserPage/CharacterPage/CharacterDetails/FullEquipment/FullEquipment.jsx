@@ -1,13 +1,16 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Modal, Button, Image } from 'react-bootstrap'
 import Item from '../Item/Item';
+import { selectFullEquipment} from '@Redux/usedEquipmentSlice'
+import { useSelector } from 'react-redux';
 
-const imgLoading = require('../../../assets/loading.gif');
+const imgLoading = require('@Assets/loading.gif');
 
 const FullEquipment = (props) => {
 
-    const bucketSample = [
+    const bucketServerResponseSample = [
         {
             "itemHash": 3055790362,
             "itemInstanceId": "6917529761161902212",
@@ -138,7 +141,10 @@ const FullEquipment = (props) => {
         }
     ]
 
-    const [bucketItems, setBucketItems] = useState([]);
+    const { bucketHash } = useParams();
+    const bucketItems = useSelector(selectFullEquipment)
+
+    /* const [bucketItems, setBucketItems] = useState([]); */
     const [isLoading, setLoading] = useState(false);
     const [showItemInstanceId, setShowItemInstanceId] = useState();
 
@@ -152,7 +158,7 @@ const FullEquipment = (props) => {
 
                     await new Promise((resolve, reject) => {
                         setTimeout(() => {
-                            setBucketItems(bucketSample);
+                            //setBucketItems(bucketServerResponseSample);
                             resolve();
                         }, 1000);
                     })
@@ -162,7 +168,7 @@ const FullEquipment = (props) => {
 
                 async () => {
                     const res = await fetch(`/api/profile/character/${props.characterId}/equipment/bucket/${props.bucketHash}`).then(res => res.json());
-                    setBucketItems(res);
+                    //setBucketItems(res);
                 }
         setLoading(true);
         loadBucketItems().then(() => { setLoading(false) });
@@ -177,7 +183,7 @@ const FullEquipment = (props) => {
                 icon={item.data.displayProperties.icon}
                 equipable={true}
                 moveable={true}
-                showItem={() => { setShowItemInstanceId(item.itemInstanceId) }}/>
+                showItem={() => { setShowItemInstanceId(item.itemInstanceId) }} />
         </td>)
     }
 
@@ -202,13 +208,13 @@ const FullEquipment = (props) => {
     }
 
     return <div>
-        
+
         {/* {showItemInstanceId &&
                 <Modal dialogClassName={classes.modal} centered show={true} onHide={() => setShowItemInstanceId()}>
                     <ItemDetail itemInstanceId={showItemInstanceId} data={bucketItems.find((el) => el.itemInstanceId === showItemInstanceId)?.data} onClose={() => setShowItemInstanceId()} />
                 </Modal>
             } */}
-        
+
         <Modal.Header closeButton>
             <Modal.Title> {props.bucketName} </Modal.Title>
         </Modal.Header>

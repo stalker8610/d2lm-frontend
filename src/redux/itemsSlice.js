@@ -1,13 +1,44 @@
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react'
-import { Modal, Button, Form, Image } from 'react-bootstrap'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const imgLoading = require('../../../../assets/loading.gif');
+const itemsSlice = createSlice({
+    name: "items",
+    initialState: {
+        items: [],
+        status: 'idle',
+        error: null,
+    },
+    reducers: {
+        itemRendered: (state, action)=>{
+            state.status = 'idle';
+            state.error = null;
+        }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchItemDetails.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchItemDetails.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.items.push(action.payload);
+            })
+            .addCase(fetchItemDetails.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+    }
 
-const ItemDetail = (props) => {
+})
 
-    const itemSample = {
+export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async (itemInstanceId, { getState }) => {
+
+    const serverResponseSample = 
+    {
+        "characterId": "2305843009434704222",
+        "itemHash": 1594120904,
+        "itemInstanceId": "6917529790419947213",
+        "isEquipped": true,
+        "itemLevel": 1569,
         "perks": [
             {
                 "perkHash": 3785272474,
@@ -67,7 +98,7 @@ const ItemDetail = (props) => {
             },
             {
                 "statHash": 1345609583,
-                "value": 45,
+                "value": 40,
                 "name": "Помощь в прицеливании"
             },
             {
@@ -77,7 +108,7 @@ const ItemDetail = (props) => {
             },
             {
                 "statHash": 2715839340,
-                "value": 90,
+                "value": 73,
                 "name": "Отдача"
             },
             {
@@ -105,70 +136,37 @@ const ItemDetail = (props) => {
                 "value": 340,
                 "name": "Выстрелов в минуту"
             }
-        ]
+        ],
+        "displayProperties": {
+            "description": "",
+            "name": "Нет времени объяснять",
+            "icon": "/common/destiny2_content/icons/b4815d2060876f82559502e67bf9c3e3.jpg",
+            "hasIcon": true
+        },
+        "screenshot": "/common/destiny2_content/screenshots/1594120904.jpg",
+        "itemTypeDisplayName": "Импульсная винтовка",
+        "hash": 1594120904
     }
+   
+    const item = getState().items.items.find((value) => value.itemInstanceId === itemInstanceId);
+    if (item) {
+        return Promise.resolve(item);
+    } else {
 
-    const [isLoading, setLoading] = useState(false);
-    const [itemData, setData] = useState(null);
-
-    useEffect(() => {
-
-        const loadData = (process.env.NODE_ENV === 'development') ?
-
-            async () => {
-                await new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        setData(itemSample);
-                        resolve();
-                    }, 1000)
-                })
-            }
-
-            :
-
-            async () => {
-                const res = await fetch(`api/items/${props.itemInstanceId}`).then(res => res.json());
-                setData(res);
-            };
-
-        setLoading(true);
-        loadData().then(() => { setLoading(false) });
-
-    }, [props.itemInstanceId]);
-
-
-    const Stat = (props) => {
-        return <div>
-            <span> {props.name}</span>
-            <span> {props.value}</span>
-        </div>
-    }
-
-    return <div>
-        <Modal.Header closeButton>
-            <Modal.Title>
-                <div> {props.data.displayProperties.name} </div>
-                <Form.Text muted> {props.data.itemTypeDisplayName} </Form.Text>
-            </Modal.Title>
-
-        </Modal.Header>
-
-        {isLoading && <Image fluid src={imgLoading}/>}
-
-        {!isLoading &&
-            <Modal.Body>
-                {itemData?.stats.map((el) => <Stat key={el.statHash} name={el.name} value={el.value} />)}
-            </Modal.Body>
+        if (process.env.NODE_ENV === 'development') {
+            return await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    //reject('some error');
+                    resolve(serverResponseSample);
+                }, 1000)
+            })
+        } else {
+            return await fetch(`https://d2lm.ru/api/items/${itemInstanceId}`)
+                .then(res => res.json());
         }
+        
+    }
+})
 
-
-
-        <Modal.Footer>
-            <Button variant="primary" onClick={props.onClose}>
-                Close
-            </Button>
-        </Modal.Footer>
-    </div>
-}
-
-export default ItemDetail
+export const { itemRendered } = itemsSlice.actions;
+export default itemsSlice.reducer

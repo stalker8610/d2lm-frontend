@@ -1,0 +1,95 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const userSlice = createSlice({
+    name: 'user',
+    initialState:
+    {
+        data: null,
+        status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+        error: null,
+        selectedCharacter: null,
+    },
+    reducers: {
+        characterSelected: (state, action) => {
+            state.selectedCharacter = action.payload;
+        },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchUser.fulfilled, (state, action) => {
+                if (action.payload){
+                    state.data = action.payload;
+                    state.selectedCharacter = action.payload.characters.length ? action.payload.characters[0].id : null;
+                }
+                state.status = 'success';
+            })
+            .addCase(fetchUser.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.status = 'failed';
+            })
+    },
+});
+
+export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+
+    const serverResponseSample = {
+
+        main: {
+            bungieMembershipId: '20909061',
+            name: 'Partizan',
+            imgPath: '/img/profile/avatars/d221_1.jpg'
+        },
+        storeMembership: {
+            storeMembershipType: 3,
+            storeMembershipId: '4611686018487196498'
+        },
+        characters: [
+            {
+                id: '2305843009434704222',
+                classType: 1,
+                light: 1573,
+                emblemPath: '/common/destiny2_content/icons/7ca933ecdf6f9f08c3b6711190cce7a8.jpg',
+            },
+            {
+                id: '2305843009494054401',
+                classType: 2,
+                light: 1354,
+                emblemPath: '/common/destiny2_content/icons/24e9133c9cc157853762de5a2c3853aa.jpg',
+            },
+            {
+                id: '2305843009604484901',
+                classType: 0,
+                light: 1354,
+                emblemPath: '/common/destiny2_content/icons/93844c8b76ea80683a880479e3506980.jpg',
+            }
+        ]
+    }
+
+    let userData = null;
+
+    if (process.env.NODE_ENV === 'development') {
+        userData = await new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //reject(new Error('some error happened'));
+                resolve(serverResponseSample)
+            }, 1500)
+        })
+    } else {
+        const { isAuthorized } = await fetch('https://d2lm.ru/auth/isAuthorized').then(response => response.json());
+        if (isAuthorized) {
+            userData = await fetch('https://d2lm.ru/api/profile/').then(response => response.json());
+        } else {
+            userData = null;
+        }
+    }
+
+    return userData;
+
+})
+
+export const { characterSelected } = userSlice.actions;
+
+export default userSlice.reducer;

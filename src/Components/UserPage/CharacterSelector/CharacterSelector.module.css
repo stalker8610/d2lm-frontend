@@ -1,6 +1,6 @@
 .selectorImg {
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     margin-right: 10px;
     border-radius: 5px;
 }
@@ -9,6 +9,7 @@
     
     grid-area: "selector";
     text-align: center;
-    margin: 10px;
-    height: 70px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+   
 } 

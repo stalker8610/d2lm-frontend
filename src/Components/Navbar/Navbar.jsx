@@ -1,21 +1,21 @@
 import React from 'react'
-import { Navbar, Nav, Container, NavDropdown, Image } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Image } from 'react-bootstrap'
 
-const _Navbar = (props) => {
+export default (props) => {
 
     const LoginItem = () => {
-        
-        return ( 
+
+        return (
             <Nav className="me-auto">
                 <Nav.Link href="/login" style={{ marginRight: 20 + 'px' }}>SIGN IN</Nav.Link>
-            </Nav> )
+            </Nav>)
     }
 
     const ProfileItem = (props) => {
         let imgPath = `https://www.bungie.net${props.profileImgPath}`;
 
         return (
-            
+
             <Nav className="justify-content-end">
                 <Navbar.Brand style={{ marginRight: 0 + 'px' }}>
                     <Image roundedCircle
@@ -38,27 +38,26 @@ const _Navbar = (props) => {
 
     return (
         <Navbar variant="dark" bg="dark" expand="lg">
-            <Navbar.Brand href="/" style={{ marginLeft: 20 + 'px' }}>
-            <img
-              alt=""
-              src="/favicon.ico"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            Destiny 2: Loot Manager</Navbar.Brand>
+            <Navbar.Brand href="#" style={{ marginLeft: 20 + 'px' }}>
+                <img
+                    alt=""
+                    src="/favicon.ico"
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                />{' '}
+                Destiny 2: Loot Manager</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" menuVariant='dark'>
-                <Nav className="me-auto">
+
+                {/* <Nav className="me-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/link">Link</Nav.Link>
-                </Nav>
+                </Nav> */}
             </Navbar.Collapse>
 
-            { props.loading ? '' : (!props.user ? <LoginItem /> : <ProfileItem profileImgPath={props.user.imgPath} profileName={props.user.name} />)}
-            
+            {props.loading ? '' : (!props.user ? <LoginItem /> : <ProfileItem profileImgPath={props.user.imgPath} profileName={props.user.name} />)}
+
         </Navbar>)
 }
-
-export default _Navbar
 
