@@ -1,9 +1,10 @@
-import {Form} from 'react-bootstrap'
 import classes from './Footer.module.css'
 
-const Footer = ()=> {
+const Footer = () => {
     return <div className={classes.appFooter}>
-        <Form.Text> &copy; 2022 Powered by ASVCOM  </Form.Text>
+        <div className={classes['form-text']}>&copy; 2022 Powered by
+            <a href='https://github.com/stalker8610' target='_blank'> ASVCOM</a>
+        </div>
     </div>
 }
 

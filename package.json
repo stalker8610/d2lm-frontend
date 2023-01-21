@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && node dev/publish.js",
     "test": "craco test",
     "eject": "craco eject",
     "publish": "node dev/publish.js",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItemDetails, itemRendered } from '@Redux/itemsSlice';
@@ -21,16 +21,15 @@ const ItemDetails = (props) => {
     const itemsAll = useSelector(state => state.items.items);
 
     const isLoading = (status === 'loading');
-
-    debugger
-
+    const bgRef = useRef();
+   
     useEffect(() => {
 
         if (itemInstanceId && status === 'idle') {
             dispatch(fetchItemDetails(itemInstanceId));
         }
 
-        return ()=>{
+        return () => {
             dispatch(itemRendered());
         }
 
@@ -44,7 +43,10 @@ const ItemDetails = (props) => {
         </div>
     }
 
-    
+    const onLoadBgImage = () => {
+        //avoid of loading background image line by line
+        bgRef.current.className += " " + classes.loaded;
+    }
 
     if (error) {
         return <Error message={`Error while fetching item details with id ${itemInstanceId}: ${error}`} />
@@ -53,7 +55,8 @@ const ItemDetails = (props) => {
     } else if (itemData) {
 
         return (
-            <div className={classes.background} style={{ backgroundImage: "url(" + `https://bungie.net${itemData.screenshot}` + ")" }}>
+            <div ref={bgRef} className={classes.background} style={{ backgroundImage: "url(" + `https://bungie.net${itemData.screenshot}` + ")" }}>
+                <img src={`https://bungie.net${itemData.screenshot}`} onLoad={onLoadBgImage} style={{ display: 'none' }} />
                 <div className={classes.panel}>
                     <div className={classes.large}>
                         {itemData.displayProperties.name}
@@ -61,12 +64,13 @@ const ItemDetails = (props) => {
                     <div className={classes.regular}>
                         {itemData.itemTypeDisplayName}
                     </div>
-                    <hr style={{marginTop: 10+'px'}}/>
+                    <hr style={{ marginTop: 10 + 'px' }} />
                     {itemData.stats.map((el) =>
                         <Stat key={el.statHash} name={el.name} value={el.value} />)
                     }
                 </div>
-            </div>)
+            </div>
+        )
     }
 
 }

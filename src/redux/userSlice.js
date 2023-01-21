@@ -20,9 +20,10 @@ export const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
-                if (action.payload){
+                if (action.payload) {
                     state.data = action.payload;
-                    state.selectedCharacter = action.payload.characters.length ? action.payload.characters[0].id : null;
+                    const characters = action.payload.characters.sort((ch1, ch2)=>ch2.light-ch1.light);
+                    state.selectedCharacter = characters.length ? characters[0].id : null;
                 }
                 state.status = 'success';
             })
@@ -52,18 +53,24 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
                 classType: 1,
                 light: 1573,
                 emblemPath: '/common/destiny2_content/icons/7ca933ecdf6f9f08c3b6711190cce7a8.jpg',
+                emblemBackgroundPath: '/common/destiny2_content/icons/82982ff7e0536b5260dda5182caa9637.jpg',
+                raceType: '1',
             },
             {
                 id: '2305843009494054401',
                 classType: 2,
                 light: 1354,
                 emblemPath: '/common/destiny2_content/icons/24e9133c9cc157853762de5a2c3853aa.jpg',
+                emblemBackgroundPath: '/common/destiny2_content/icons/73f5f779f40bfecb4690c395bc1941b9.jpg',
+                raceType: '2',
             },
             {
                 id: '2305843009604484901',
                 classType: 0,
                 light: 1354,
                 emblemPath: '/common/destiny2_content/icons/93844c8b76ea80683a880479e3506980.jpg',
+                emblemBackgroundPath: '/common/destiny2_content/icons/d414390aaadcddea26fa4ce6ba639a12.jpg',
+                raceType: '0',
             }
         ]
     }
@@ -81,12 +88,13 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
         const { isAuthorized } = await fetch('https://d2lm.ru/auth/isAuthorized').then(response => response.json());
         if (isAuthorized) {
             userData = await fetch('https://d2lm.ru/api/profile/').then(response => response.json());
-        } else {
-            userData = null;
+            if (userData.error) {
+                throw new Error(userData.error);
+            }
         }
     }
 
-    return userData;
+    return userData ? { ...userData, characters: userData.characters.sort((ch1, ch2) => ch2.light - ch1.light) } : null;
 
 })
 

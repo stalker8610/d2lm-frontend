@@ -1,21 +1,15 @@
-import { Nav, NavItem} from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import classes from './CharacterNav.module.css';
 
-export default ()=> {
+export default () => {
+
     return (
-        <div style={{paddingTop: 10+'px'}}>
-            <Nav defaultActiveKey="/equipment" className="flex-column">
-                <NavItem eventkey="equipment" href="/equipment">
-                    <Nav.Link as={Link} to="/equipment" style={{textAlign: 'right'}}>Equipment</Nav.Link>
-                </NavItem>
-                <NavItem eventkey="postmaster" href="/postmaster">
-                    <Nav.Link as={Link} to="/postmaster" style={{textAlign: 'right'}}>Postmaster</Nav.Link>
-                </NavItem>
-                <NavItem eventkey="vault" href="/vault">
-                    <Nav.Link as={Link} to="/vault" style={{textAlign: 'right'}}>Vault</Nav.Link>
-                </NavItem>
-            </Nav>
+        <div className={classes.menu}>
+            <NavLink to="/equipment" title="Show equipped items" className={({ isActive }) => isActive ? classes.activeLink : classes.link}>Equipment</NavLink>
+            <NavLink to="/postmaster" title="Pull items from the Postmaster" className={({ isActive }) => isActive ? classes.activeLink : classes.link}>Postmaster</NavLink>
+            <NavLink to="/vault" title="Pull items from the vault" className={({ isActive }) => isActive ? classes.activeLink : classes.link}>Vault</NavLink>
         </div>
-    );
+    )
+
 }
 

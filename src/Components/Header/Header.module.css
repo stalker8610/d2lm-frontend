@@ -1,0 +1,139 @@
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 55px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: rgb(33,37,41);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0 2px 5px #111;
+    z-index: 1;
+}
+
+.left-part {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.ghost {
+    display: inline-block;
+    background-image: url('./ghost200x175.png');
+    background-size: 50px;
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    margin: 0 15px;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.ghost:hover {
+    background-image: url('./ghost200x175glow.png');
+    transition: 0.5s;
+}
+
+.title {
+    display: inline-block;
+    font-size: 1.5em;
+    color:  #BBB;
+    text-shadow: 1px 1px 2px #111;
+    text-decoration: none;
+    text-align: left;
+    cursor: default;
+}
+
+/* .title:hover {
+    color:  #DFDFDF;
+} */
+
+a.login, a.login:visited{
+   font-size: 1em;
+   color: #BBB;
+   text-shadow: 1px 1px 1px black;
+   margin-right: 2vw;
+   text-decoration: none;
+}
+
+a.login:active, a.login:hover{
+    color: #DFDFDF;
+}
+
+.account {
+    display: block;
+    position: relative;
+    height: 55px;
+    font-size: 1em;
+    color: #BBB;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
+    min-width: 130px;
+    max-width: 170px;
+}
+
+.account-view {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background-color:  rgb(33,37,41);
+    position: relative;
+    z-index: 1;
+}
+
+.account img {
+    border-radius: 30px;
+}
+
+.account .name {
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.account:hover {
+    color: #FFF;
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0.5vw;
+    overflow: auto;
+    box-shadow: 0px 5px 16px rgba(0,0,0,0.5);
+    text-shadow: none;
+    z-index: 0;
+    border-radius: 0 0 5px 5px;
+    transition: top 0.5s;
+}
+
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    height: 3em;
+    color: #000;
+    text-decoration: none;
+    padding: 0 12px;
+}
+
+.dropdown-content a:link, .dropdown-content a:visited{
+    background-color: #FFF;
+    
+}
+
+.dropdown-content a:hover {
+    background-color: #AAA;
+    transition: 0.2s;
+}
+
+.account:hover .dropdown-content {
+    display: block;
+    top: 55px;
+}
+
+/* .account:hover .dropdown-content a {
+    
+    
+} */
+

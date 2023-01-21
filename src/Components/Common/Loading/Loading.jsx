@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Loading.module.css'
-const imgLoading = require('@Assets/loading.gif')
+const imgLoading = require('./loading.gif')
 
 
 const Loading = (props) => {

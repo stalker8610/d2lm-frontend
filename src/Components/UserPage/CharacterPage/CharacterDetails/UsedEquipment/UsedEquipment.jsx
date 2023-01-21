@@ -3,7 +3,6 @@ import classes from './UsedEquipment.module.css'
 import Item from '../Item/Item'
 import Loading from '@Components/Common/Loading/Loading'
 import Error from '@Components/Common/Error/Error'
-/* import FullEquipment from '../FullEquipment/FullEquipment' */
 
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsedEquipment } from '@Redux/usedEquipmentSlice'
@@ -28,7 +27,9 @@ const UsedEquipment = () => {
 
     const renderItem = (item) => {
 
-        return <Item id={item.itemInstanceId} hash={item.itemHash} />
+        return <Item id={item.itemInstanceId} hash={item.itemHash}
+            selector={state => state.usedEquipment.items.find((value) => value.itemInstanceId === item.itemInstanceId)} 
+            availableCommands = {['showItem', 'showBucket']}/>
     }
 
     return (
@@ -36,21 +37,6 @@ const UsedEquipment = () => {
 
             {error && <Error message={`Error while used equipment fetch: ${error}`} />}
             {isLoading && <Loading />}
-
-            {/*  {showItemInstanceId &&
-                <Modal dialogClassName={classes.modal} centered show={true} onHide={() => setShowItemInstanceId()}>
-                    <ItemDetail itemInstanceId={showItemInstanceId} data={equip.find((el) => el.itemInstanceId === showItemInstanceId)?.data} onClose={() => setShowItemInstanceId()} />
-                </Modal>
-            }
-
-            {showFullEquipmentBucket &&
-                <Modal dialogClassName={classes.modal} centered show={true} onHide={() => setShowFullEquipmentBucket()}>
-                    <FullEquipment characterId={selectedCharacter} bucketHash={showFullEquipmentBucket}
-                        bucketName={equip.find((el) => el.bucketHash === showFullEquipmentBucket)?.data.bucket.displayProperties.name}
-                        onClose={() => setShowFullEquipmentBucket()} />
-                </Modal>
-            } */}
-
             {!isLoading && usedEquipment.length &&
                 <table className={classes.table}>
                     <tbody>

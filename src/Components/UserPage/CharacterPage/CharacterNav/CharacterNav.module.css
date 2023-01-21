@@ -1,0 +1,36 @@
+.menu {
+    display: inline-block;
+    background-color: #353535;
+    padding: 5px;
+    box-shadow: 0 0 5px #111;
+    margin: 8px 0 0 0;
+}
+
+.menu a {
+    display: block;
+    float: left;
+    min-width: 80px;
+    width: 200px;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none;
+}
+
+.link[href="/vault"] {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.link {
+    color: #AAA;
+}
+
+.activeLink, .activeLink:hover {
+    color: #FFF;
+    background-color: #444;
+    transition: 1s;
+}
+
+.link:hover{
+    color: #FFF;
+}

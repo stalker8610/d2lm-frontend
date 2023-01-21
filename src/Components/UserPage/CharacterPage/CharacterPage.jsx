@@ -7,7 +7,6 @@ export default () => {
 
     return <div className={classes.wrapper}>
         <Nav></Nav>
-        <hr className={classes.vertical}></hr>
         <CharacterDetails />
     </div >
 

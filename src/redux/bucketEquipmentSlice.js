@@ -1,16 +1,43 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Modal, Button, Image } from 'react-bootstrap'
-import Item from '../Item/Item';
-import { selectFullEquipment} from '@Redux/usedEquipmentSlice'
-import { useSelector } from 'react-redux';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { characterSelected } from "./userSlice";
 
-const imgLoading = require('@Assets/loading.gif');
+const getInitialState = () => {
+    return {
+        items: [],
+        status: 'idle',
+        error: null,
+    }
+}
 
-const FullEquipment = (props) => {
+const bucketEquipmentSlice = createSlice({
+    name: "bucketEquipment",
+    initialState: getInitialState(),
+    reducers: {
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchBucketEquipment.pending, (state, action) => {
+                state.status = 'loading';
+                state.error = '';
+            })
+            .addCase(fetchBucketEquipment.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.error = '';
+                state.items = [...action.payload];
+            })
+            .addCase(fetchBucketEquipment.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(characterSelected, () => {
+                return getInitialState();
+            })
+    },
+})
 
-    const bucketServerResponseSample = [
+export const fetchBucketEquipment = createAsyncThunk('bucketEquipment/fetchBucketEquipment', async (bucketHash, { getState }) => {
+
+    const serverResponseSample = [
         {
             "itemHash": 3055790362,
             "itemInstanceId": "6917529761161902212",
@@ -141,98 +168,18 @@ const FullEquipment = (props) => {
         }
     ]
 
-    const { bucketHash } = useParams();
-    const bucketItems = useSelector(selectFullEquipment)
-
-    /* const [bucketItems, setBucketItems] = useState([]); */
-    const [isLoading, setLoading] = useState(false);
-    const [showItemInstanceId, setShowItemInstanceId] = useState();
-
-    useEffect(() => {
-
-        const loadBucketItems =
-
-            process.env.NODE_ENV === 'development' ?
-
-                async () => {
-
-                    await new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            //setBucketItems(bucketServerResponseSample);
-                            resolve();
-                        }, 1000);
-                    })
-                }
-
-                :
-
-                async () => {
-                    const res = await fetch(`/api/profile/character/${props.characterId}/equipment/bucket/${props.bucketHash}`).then(res => res.json());
-                    //setBucketItems(res);
-                }
-        setLoading(true);
-        loadBucketItems().then(() => { setLoading(false) });
-
-
-    }, [props.characterId, props.bucketHash]);
-
-
-    const renderItems = () => {
-        return bucketItems.map((item) => <td>
-            <Item id={item.itemInstanceId} name={item.data.displayProperties.name}
-                icon={item.data.displayProperties.icon}
-                equipable={true}
-                moveable={true}
-                showItem={() => { setShowItemInstanceId(item.itemInstanceId) }} />
-        </td>)
+    if (process.env.NODE_ENV === 'development') {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //reject('some error');
+                resolve(serverResponseSample);
+            }, 1000)
+        })
+    } else {
+        return fetch(`/api/profile/character/${getState().user.selectedCharacter}/equipment/bucket/${bucketHash}`)
+            .then(res => res.json());
     }
 
-    const renderTable = () => {
+})
 
-        const renderedItems = renderItems();
-
-        return <table>
-            <tbody>
-                <tr>
-                    {renderedItems.filter((value, index) => index <= 2)}
-                </tr>
-                {renderedItems.length > 3 && <tr>
-                    {renderedItems.filter((value, index) => index >= 3 && index <= 5)}
-                </tr>}
-                {renderedItems.length > 6 && <tr>
-                    {renderedItems.filter((value, index) => index >= 6)}
-                </tr>}
-            </tbody>
-        </table>
-
-    }
-
-    return <div>
-
-        {/* {showItemInstanceId &&
-                <Modal dialogClassName={classes.modal} centered show={true} onHide={() => setShowItemInstanceId()}>
-                    <ItemDetail itemInstanceId={showItemInstanceId} data={bucketItems.find((el) => el.itemInstanceId === showItemInstanceId)?.data} onClose={() => setShowItemInstanceId()} />
-                </Modal>
-            } */}
-
-        <Modal.Header closeButton>
-            <Modal.Title> {props.bucketName} </Modal.Title>
-        </Modal.Header>
-
-        {isLoading && <Image fluid src={imgLoading} style={{ height: 320 + 'px' }} />}
-
-        {!isLoading && bucketItems.length &&
-            <Modal.Body>
-                {renderTable()}
-            </Modal.Body>
-        }
-
-        <Modal.Footer>
-            <Button variant="primary" onClick={props.onClose}>
-                Close
-            </Button>
-        </Modal.Footer>
-    </div>
-}
-
-export default FullEquipment
+export default bucketEquipmentSlice.reducer;

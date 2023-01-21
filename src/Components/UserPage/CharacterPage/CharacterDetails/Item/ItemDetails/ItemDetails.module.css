@@ -1,9 +1,18 @@
 .background {
+    position: relative;
     height: 100%;
-    background-size: 100% 100%;
+    background-size: cover;
+    opacity: 0;
+}
+
+.background.loaded {
+    opacity: 1;
 }
 
 .panel {
+    position: absolute;
+    left: 10px;
+    top: 10px;
     background-color: rgba(119,135,159,0.4);
     width: fit-content;
     padding: 10px;

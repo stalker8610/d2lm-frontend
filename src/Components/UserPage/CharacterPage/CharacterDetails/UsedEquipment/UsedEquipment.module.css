@@ -1,18 +1,9 @@
 .wrapper{
-    grid-area: "data";
+    /* display: flex; */
     margin: 10px;
-
-    display: flex;
-    text-align: center;
 }
 
-.table{
-
-    width: 100%;
-    text-align: left;
-
-}
-
-.modal{
-    width: 400px;
+.table td {
+    width: 200px;
+    padding-bottom: 10px;
 }

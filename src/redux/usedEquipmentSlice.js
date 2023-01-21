@@ -21,7 +21,7 @@ const equipmentSlice = createSlice({
             })
             .addCase(fetchUsedEquipment.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items = action.payload;
+                state.items = [...action.payload];
             })
             .addCase(fetchUsedEquipment.rejected, (state, action) => {
                 state.status = 'failed';
