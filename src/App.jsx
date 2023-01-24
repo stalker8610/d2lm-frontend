@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+/* import 'bootstrap/dist/css/bootstrap.min.css'; */
 import { React, useEffect } from 'react'
 import './App.css'
 import UserPage from './Components/UserPage/UserPage';

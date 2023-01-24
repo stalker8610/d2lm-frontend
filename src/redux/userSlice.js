@@ -82,7 +82,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
             setTimeout(() => {
                 //reject(new Error('some error happened'));
                 resolve(serverResponseSample)
-            }, 1500)
+            }, 500)
         })
     } else {
         const { isAuthorized } = await fetch('https://d2lm.ru/auth/isAuthorized').then(response => response.json());

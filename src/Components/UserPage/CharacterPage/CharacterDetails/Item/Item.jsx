@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import classes from './Item.module.css'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -9,31 +9,46 @@ const Item = (props) => {
     const itemData = useSelector(props.selector);
     const isEquipped = useSelector(state => state.usedEquipment.items.some(el => el.itemInstanceId === props.id));
 
-    const menuRef = useRef(null);
     const itemRef = useRef(null);
 
     const [showMenu, toogleMenu] = useState(false);
 
-    useEffect(() => {
+    let timeout;
 
-        function handleClickOutside(event) {
-            if (menuRef.current && !menuRef.current.contains(event.target) && !itemRef.current.contains(event.target)) {
-                itemRef.current.className = classes.item;
-                toogleMenu(false);
-            }
+    const onMouseEnterItemHandler = () => {
+        if (!showMenu) {
+            itemRef.current.className = classes.item + " " + classes.activeItem;
+            timeout = setTimeout(() => {
+                toogleMenu(true);
+            }, 100);
         }
+    }
 
-        document.addEventListener("mousedown", handleClickOutside);
-        
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
+    const onMouseLeaveItemHandler = () => {
+        timeout = setTimeout(() => {
+            itemRef.current.className = classes.item;
+            toogleMenu(false);
+        }, 100);
+    }
 
-    }, [menuRef]);
+    const onMouseEnterMenuHandler = () => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+    }
 
-    const onItemClick = () => {
-        itemRef.current.className = classes.item + " " + classes.activeItem;
-        toogleMenu(true);
+    const onMouseLeaveMenuHandler = () => {
+        itemRef.current.className = classes.item;
+        toogleMenu(false);
+    }
+
+    const onClick = () => {
+        if (showMenu) toogleMenu(false);
+        props.onClick();
+    }
+
+    const onMenuClick = () => {
+        toogleMenu(false);
     }
 
     const dropdownMenu = () => {
@@ -52,18 +67,35 @@ const Item = (props) => {
             commands.push(<Link className={classes.link} key="take" to={`#`} onClick={props.onTake}>Show bucket</Link>);
         }
 
-        return <div ref={menuRef} className={classes.dropdownMenu}>
+        return <div
+            className={classes.dropdownMenu}
+            onMouseEnter={onMouseEnterMenuHandler}
+            onMouseLeave={onMouseLeaveMenuHandler}
+            onClick={onMenuClick}>
             {commands}
         </div>
     }
 
-
-    return <div ref={itemRef}
-        className={classes.item}
-        onClick={onItemClick}
-        style={{ backgroundImage: `url('https://www.bungie.net${itemData.data.displayProperties.icon}')` }}>
-        {showMenu && dropdownMenu()}
-    </div>
+    if (props.notFound) {
+        return <div className={classes.itemWrapper}>
+            <div className={`${classes.item} ${classes['not-found']}`} />
+        </div>
+    } else if (props.loading) {
+        return <div className={classes.itemWrapper}>
+            <div className={`${classes.item} ${classes['loading']}`} />
+        </div>
+    } else {
+        return <div className={classes.itemWrapper}>
+            <div ref={itemRef}
+                className={classes.item}
+                onClick={onClick}
+                onMouseEnter={onMouseEnterItemHandler}
+                onMouseLeave={onMouseLeaveItemHandler}
+                style={{ backgroundImage: `url('https://www.bungie.net${itemData.data.displayProperties.icon}')` }}>
+            </div>
+            {showMenu && dropdownMenu()}
+        </div>
+    }
 
     /* return <div className={classes.wrapper}>
         <NavDropdown id='nav-dropdown' title={ItemImage()}>

@@ -1,6 +1,5 @@
 .background {
     position: relative;
-    height: 100%;
     background-size: cover;
     opacity: 0;
 }
@@ -14,7 +13,7 @@
     left: 10px;
     top: 10px;
     background-color: rgba(119,135,159,0.4);
-    width: fit-content;
+    min-width: 240px;
     padding: 10px;
     color: whitesmoke;
 }

@@ -1,5 +1,15 @@
-.center {
+.signInOffer {
     text-align: center;
     vertical-align: middle;
     padding-top: 20px;
+}
+
+.form-text {
+    margin-top: .25rem;
+    font-size: .875em;
+    color: #6c757d;
+}
+
+.signInOffer a {
+    text-decoration: none;
 }

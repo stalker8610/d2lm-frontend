@@ -43,9 +43,17 @@ const ItemDetails = (props) => {
         </div>
     }
 
+    const setBodyBackground = () => {
+        document.body.style.backgroundImage = `url(https://bungie.net${itemData.screenshot})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+    }
+
     const onLoadBgImage = () => {
         //avoid of loading background image line by line
-        bgRef.current.className += " " + classes.loaded;
+        /* bgRef.current.className += " " + classes.loaded; */
+    
+        setBodyBackground();
     }
 
     if (error) {
@@ -54,9 +62,16 @@ const ItemDetails = (props) => {
         return <Loading />
     } else if (itemData) {
 
+   
+        
         return (
+            
+                
             <div ref={bgRef} className={classes.background} style={{ backgroundImage: "url(" + `https://bungie.net${itemData.screenshot}` + ")" }}>
                 <img src={`https://bungie.net${itemData.screenshot}`} onLoad={onLoadBgImage} style={{ display: 'none' }} />
+                
+                
+                
                 <div className={classes.panel}>
                     <div className={classes.large}>
                         {itemData.displayProperties.name}

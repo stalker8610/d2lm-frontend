@@ -8,6 +8,7 @@
     content: "";
     clear: both;
     display: table;
+    margin: 0 0 8px 0;
 }
 
 .badge {
@@ -21,10 +22,6 @@
     margin: 3px 0 0 0;
     cursor: pointer;
 }
-
-/* .badge:last-child {
-    border-radius: 0 10px 0 0;
-} */
 
 .badge:hover, .badge.active {
     opacity: 1.0;
