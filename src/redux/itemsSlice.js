@@ -6,11 +6,21 @@ const itemsSlice = createSlice({
         items: [],
         status: 'idle',
         error: null,
+        currentItemId: null,
+        currentItemBgLoaded: false,
     },
     reducers: {
-        itemRendered: (state, action)=>{
+        currentItemRendered: (state, action) => {
+            state.currentItemId = action.payload;
+        },
+        currentItemBecomeChanged: (state, action) => {
             state.status = 'idle';
             state.error = null;
+            state.currentItemId = null;
+            state.currentItemBgLoaded = false;
+        },
+        currentItemImgLoaded: (state, action) => {
+            state.currentItemBgLoaded = true;
         }
     },
     extraReducers: builder => {
@@ -19,8 +29,8 @@ const itemsSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchItemDetails.fulfilled, (state, action) => {
-                state.status = 'succeeded';
                 state.items.push(action.payload);
+                state.status = 'succeeded';
             })
             .addCase(fetchItemDetails.rejected, (state, action) => {
                 state.status = 'failed';
@@ -32,13 +42,12 @@ const itemsSlice = createSlice({
 
 export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async (itemInstanceId, { getState }) => {
 
-    const serverResponseSample = 
-    {
-        "characterId": "2305843009434704222",
+    const serverResponseSample = {
+        "characterId": "2305843009604484901",
         "itemHash": 1594120904,
-        "itemInstanceId": "6917529790419947213",
+        "itemInstanceId": "6917529823819985541",
         "isEquipped": true,
-        "itemLevel": 1569,
+        "itemLevel": 1582,
         "perks": [
             {
                 "perkHash": 3785272474,
@@ -46,25 +55,25 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
                 "isActive": true,
                 "visible": true,
                 "displayProperties": {
-                    "description": "Может вернуть выстрелы в магазин и открыть временной портал.",
-                    "name": "Перемотай еще раз",
+                    "description": "Can return shots to the magazine and open a time portal.",
+                    "name": "Rewind Again",
                     "icon": "/common/destiny2_content/icons/c4f6be10eeea9ff396131e9206305376.png",
                     "hasIcon": true
                 },
                 "hash": 3785272474
             },
             {
-                "perkHash": 775274301,
-                "iconPath": "/common/destiny2_content/icons/c995638d381d6ff46df5606f49abd7b3.png",
+                "perkHash": 2551856714,
+                "iconPath": "/common/destiny2_content/icons/5838b4ef410895011edfed3eaf11641f.png",
                 "isActive": true,
                 "visible": true,
                 "displayProperties": {
-                    "description": "Удерживайте спуск, чтобы вести автоматический огонь.",
-                    "name": "Система автоспуска",
-                    "icon": "/common/destiny2_content/icons/c995638d381d6ff46df5606f49abd7b3.png",
+                    "description": "Each rapid kill with this weapon progressively increases reload speed for a short time.",
+                    "name": "Feeding Frenzy",
+                    "icon": "/common/destiny2_content/icons/5838b4ef410895011edfed3eaf11641f.png",
                     "hasIcon": true
                 },
-                "hash": 775274301
+                "hash": 2551856714
             },
             {
                 "perkHash": 2910731959,
@@ -72,8 +81,8 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
                 "isActive": true,
                 "visible": true,
                 "displayProperties": {
-                    "description": "Снаряды вылетают из временного портала быстрее и чаще.",
-                    "name": "Бортовой залп",
+                    "description": "Projectiles from the time portal shoot more frequently.",
+                    "name": "Blast from the Side",
                     "icon": "/common/destiny2_content/icons/00f1212788159cf9f4000e3b51ade290.png",
                     "hasIcon": true
                 },
@@ -82,72 +91,116 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
         ],
         "stats": [
             {
-                "statHash": 155624089,
-                "value": 60,
-                "name": "Стабильность"
+                "displayProperties": {
+                    "name": "Stability"
+                },
+                "statCategory": 1,
+                "hash": 155624089,
+                "index": 22,
+                "value": 60
             },
             {
-                "statHash": 943549884,
-                "value": 57,
-                "name": "Удобство"
+                "displayProperties": {
+                    "name": "Handling"
+                },
+                "statCategory": 1,
+                "hash": 943549884,
+                "index": 26,
+                "value": 57
             },
             {
-                "statHash": 1240592695,
-                "value": 80,
-                "name": "Дальность стрельбы"
+                "displayProperties": {
+                    "name": "Range"
+                },
+                "statCategory": 1,
+                "hash": 1240592695,
+                "index": 16,
+                "value": 80
             },
             {
-                "statHash": 1345609583,
-                "value": 40,
-                "name": "Помощь в прицеливании"
+                "displayProperties": {
+                    "name": "Aim Assistance"
+                },
+                "statCategory": 1,
+                "hash": 1345609583,
+                "index": 30,
+                "value": 40
             },
             {
-                "statHash": 2714457168,
-                "value": 24,
-                "name": "Эффективность в воздухе"
+                "displayProperties": {
+                    "name": "Airborne Effectiveness"
+                },
+                "statCategory": 1,
+                "hash": 2714457168,
+                "index": 43,
+                "value": 24
             },
             {
-                "statHash": 2715839340,
-                "value": 73,
-                "name": "Отдача"
+                "displayProperties": {
+                    "name": "Recoil Direction"
+                },
+                "statCategory": 1,
+                "hash": 2715839340,
+                "index": 31,
+                "value": 73
             },
             {
-                "statHash": 3555269338,
-                "value": 17,
-                "name": "Оптический прицел"
+                "displayProperties": {
+                    "name": "Zoom"
+                },
+                "statCategory": 1,
+                "hash": 3555269338,
+                "index": 32,
+                "value": 17
             },
             {
-                "statHash": 3871231066,
-                "value": 24,
-                "name": "Магазин"
+                "displayProperties": {
+                    "name": "Magazine"
+                },
+                "statCategory": 1,
+                "hash": 3871231066,
+                "index": 24,
+                "value": 24
             },
             {
-                "statHash": 4043523819,
-                "value": 33,
-                "name": "Урон"
+                "displayProperties": {
+                    "name": "Impact"
+                },
+                "statCategory": 1,
+                "hash": 4043523819,
+                "index": 15,
+                "value": 33
             },
             {
-                "statHash": 4188031367,
-                "value": 60,
-                "name": "Скорость перезарядки"
+                "displayProperties": {
+                    "name": "Reload Speed"
+                },
+                "statCategory": 1,
+                "hash": 4188031367,
+                "index": 27,
+                "value": 60
             },
             {
-                "statHash": 4284893193,
-                "value": 340,
-                "name": "Выстрелов в минуту"
+                "displayProperties": {
+                    "name": "Rounds Per Minute"
+                },
+                "statCategory": 1,
+                "hash": 4284893193,
+                "index": 14,
+                "value": 340
             }
         ],
         "displayProperties": {
             "description": "",
-            "name": "Нет времени объяснять",
+            "name": "No Time to Explain",
             "icon": "/common/destiny2_content/icons/b4815d2060876f82559502e67bf9c3e3.jpg",
             "hasIcon": true
         },
         "screenshot": "/common/destiny2_content/screenshots/1594120904.jpg",
-        "itemTypeDisplayName": "Импульсная винтовка",
+        "itemTypeDisplayName": "Pulse Rifle",
         "hash": 1594120904
     }
-   
+
     const item = getState().items.items.find((value) => value.itemInstanceId === itemInstanceId);
     if (item) {
         return Promise.resolve(item);
@@ -156,17 +209,48 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
         if (process.env.NODE_ENV === 'development') {
             return await new Promise((resolve, reject) => {
                 setTimeout(() => {
+
+                    let result = serverResponseSample;
+
+                    let ordinaryStats = result.stats.filter(el => !(el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
+                    .sort((a, b) => a.index - b.index).map(el=> ({...el, 'odd': false}));
+
+                    let oddStats = result.stats.filter(el => (el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
+                    .sort((a, b) => a.index - b.index).map(el => ({...el, 'odd': true}));
+
                     //reject('some error');
-                    resolve(serverResponseSample);
+                    resolve({ ...result, 'stats': ordinaryStats.concat(oddStats) });
                 }, 1000)
             })
         } else {
-            return await fetch(`https://d2lm.ru/api/items/${itemInstanceId}`)
+            let result = await fetch(`https://d2lm.ru/api/items/${itemInstanceId}`)
                 .then(res => res.json());
+
+            if (result.error) {
+                throw new Error(result.error);
+            } else {
+
+                const stats = result.stats.filter(el => !(el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
+                    .sort((a, b) => a.index - b.index)
+                    .concat(
+                        result.stats.filter(el => (el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
+                            .sort((a, b) => a.index - b.index)
+                    );
+
+                return { ...result, stats };
+            }
         }
-        
+
     }
 })
 
-export const { itemRendered } = itemsSlice.actions;
+export const { currentItemRendered,
+    currentItemImgLoaded,
+    currentItemBecomeChanged,
+} = itemsSlice.actions;
+
+export const getCurrentItemBgUrl = (state) => {
+    return state.items.items.find(el => el.itemInstanceId === state.items.currentItemId)?.screenshot;
+};
+
 export default itemsSlice.reducer

@@ -7,7 +7,8 @@
     --header-height: 55px;
     --footer-height: 55px;
 
-    --header-bg-color: rgb(33,37,41);
+    /* --header-bg-color: rgb(33,37,41); */
+    --header-bg-color: rgb(25,28,33);
 
     --dropdown-bg-color: #AAA;
     --dropdown-bg-hover-color: #FFF;
@@ -16,14 +17,22 @@
     --dropdown-bg-hover-color: rgba(202, 202, 202, 0.95);
     --dropdown-link-color: #111;
 
-    --box-shadow-dark-color: #111;
+    /* --box-shadow-dark-color: #111; */
+    --box-shadow-dark-color: black;
 
-    --panel-bg-color: #353535;
+    /* --panel-bg-color: #353535;
+
+    --panel-bg-color: #33373e; */
+
+    --panel-bg-color: rgba(45,47,58,.7);
+    --panel-box-shadow: 2px 2px 3px var(--box-shadow-dark-color);
 }
 
 
-.appWrapper {
 
+
+.appWrapper {
+    
 }
 
 a {
@@ -36,6 +45,9 @@ a:hover {
 }
 
 .appWrapperContent {
-    height: calc(100vh - 55px - 55px);
+    min-height: calc(100vh - 55px - 55px);
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s;
 }
 

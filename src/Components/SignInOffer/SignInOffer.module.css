@@ -1,13 +1,15 @@
 .signInOffer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 55px - 55px);
     text-align: center;
-    vertical-align: middle;
-    padding-top: 20px;
 }
 
 .form-text {
-    margin-top: .25rem;
-    font-size: .875em;
-    color: #6c757d;
+    font-size: 1.3em;
+    color: #BBB;
+    max-width: 80%;
 }
 
 .signInOffer a {

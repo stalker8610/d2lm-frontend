@@ -3,7 +3,7 @@ import classes from './SignInOffer.module.css';
 
 const SignInOffer = () => {
     return <div className={classes.signInOffer}>
-        <div className={classes['form-text']}>Please, <a href='/login'> SING IN</a> to start using the app
+        <div className={classes['form-text']}>Please, <a href='/login'> SIGN IN</a> to start using the app
         </div>
     </div>
 }

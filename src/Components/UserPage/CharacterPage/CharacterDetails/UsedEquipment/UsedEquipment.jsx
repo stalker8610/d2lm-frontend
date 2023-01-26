@@ -29,7 +29,6 @@ const UsedEquipment = () => {
 
     }, [selectedCharacter, status, dispatch]);
 
-
     const onClick = (itemInstanceId) => {
         navigate(`/equipment/item/${itemInstanceId}`, { replace: true });
     }
@@ -45,6 +44,7 @@ const UsedEquipment = () => {
                 selector={state => state.usedEquipment.items.find((value) => value.itemInstanceId === item.itemInstanceId)}
                 availableCommands={['showItem', 'showBucket']}
                 onClick={()=>onClick(item.itemInstanceId)}
+                selected={item.itemInstanceId === itemInstanceId}
                 loading={isLoading} />
         }
     }

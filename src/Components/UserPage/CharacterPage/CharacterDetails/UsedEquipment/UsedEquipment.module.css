@@ -7,7 +7,7 @@
     background-color: var(--panel-bg-color);
     padding: 5px;
     margin: 0 5px 5px 0;
-    box-shadow: 0 0 5px var(--box-shadow-dark-color);
+    box-shadow: var(--panel-box-shadow);
     position: relative;
 }
 

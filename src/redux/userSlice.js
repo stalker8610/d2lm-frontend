@@ -37,40 +37,39 @@ export const userSlice = createSlice({
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
 
     const serverResponseSample = {
-
-        main: {
-            bungieMembershipId: '20909061',
-            name: 'Partizan',
-            imgPath: '/img/profile/avatars/d221_1.jpg'
+        "main": {
+            "bungieMembershipId": "20909061",
+            "name": "Partizan",
+            "imgPath": "/img/profile/avatars/d221_1.jpg"
         },
-        storeMembership: {
-            storeMembershipType: 3,
-            storeMembershipId: '4611686018487196498'
+        "storeMembership": {
+            "storeMembershipType": 3,
+            "storeMembershipId": "4611686018487196498"
         },
-        characters: [
+        "characters": [
             {
-                id: '2305843009434704222',
-                classType: 1,
-                light: 1573,
-                emblemPath: '/common/destiny2_content/icons/7ca933ecdf6f9f08c3b6711190cce7a8.jpg',
-                emblemBackgroundPath: '/common/destiny2_content/icons/82982ff7e0536b5260dda5182caa9637.jpg',
-                raceType: '1',
+                "id": "2305843009434704222",
+                "classType": 1,
+                "light": 1596,
+                "emblemPath": "/common/destiny2_content/icons/cb75fe0f22015ba50953ec3a0700d07a.jpg",
+                "emblemBackgroundPath": "/common/destiny2_content/icons/82982ff7e0536b5260dda5182caa9637.jpg",
+                "raceType": 1
             },
             {
-                id: '2305843009494054401',
-                classType: 2,
-                light: 1354,
-                emblemPath: '/common/destiny2_content/icons/24e9133c9cc157853762de5a2c3853aa.jpg',
-                emblemBackgroundPath: '/common/destiny2_content/icons/73f5f779f40bfecb4690c395bc1941b9.jpg',
-                raceType: '2',
+                "id": "2305843009494054401",
+                "classType": 2,
+                "light": 1366,
+                "emblemPath": "/common/destiny2_content/icons/24e9133c9cc157853762de5a2c3853aa.jpg",
+                "emblemBackgroundPath": "/common/destiny2_content/icons/73f5f779f40bfecb4690c395bc1941b9.jpg",
+                "raceType": 2
             },
             {
-                id: '2305843009604484901',
-                classType: 0,
-                light: 1354,
-                emblemPath: '/common/destiny2_content/icons/93844c8b76ea80683a880479e3506980.jpg',
-                emblemBackgroundPath: '/common/destiny2_content/icons/d414390aaadcddea26fa4ce6ba639a12.jpg',
-                raceType: '0',
+                "id": "2305843009604484901",
+                "classType": 0,
+                "light": 1599,
+                "emblemPath": "/common/destiny2_content/icons/74189badc6b93019200a4dff342c205d.jpg",
+                "emblemBackgroundPath": "/common/destiny2_content/icons/d414390aaadcddea26fa4ce6ba639a12.jpg",
+                "raceType": 0
             }
         ]
     }
@@ -82,7 +81,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
             setTimeout(() => {
                 //reject(new Error('some error happened'));
                 resolve(serverResponseSample)
-            }, 500)
+            }, 1500)
         })
     } else {
         const { isAuthorized } = await fetch('https://d2lm.ru/auth/isAuthorized').then(response => response.json());

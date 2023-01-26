@@ -1,13 +1,16 @@
 import React, { useRef, useState } from 'react'
 import classes from './Item.module.css'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import Loading from '@Components/Common/Loading/Loading'
+import {currentItemBecomeChanged} from '@Redux/itemsSlice'
 
 const Item = (props) => {
 
     const itemData = useSelector(props.selector);
     const isEquipped = useSelector(state => state.usedEquipment.items.some(el => el.itemInstanceId === props.id));
+    const dispatch = useDispatch();
+
 
     const itemRef = useRef(null);
 
@@ -44,11 +47,13 @@ const Item = (props) => {
 
     const onClick = () => {
         if (showMenu) toogleMenu(false);
+        dispatch(currentItemBecomeChanged());
         props.onClick();
     }
 
     const onMenuClick = () => {
         toogleMenu(false);
+        itemRef.current.className = classes.item;
     }
 
     const dropdownMenu = () => {
@@ -64,7 +69,7 @@ const Item = (props) => {
         }
 
         if (props.availableCommands.includes('take')) {
-            commands.push(<Link className={classes.link} key="take" to={`#`} onClick={props.onTake}>Show bucket</Link>);
+            commands.push(<a className={classes.link} key="take" onClick={props.onTake}>Pull</a>);
         }
 
         return <div
@@ -82,16 +87,19 @@ const Item = (props) => {
         </div>
     } else if (props.loading) {
         return <div className={classes.itemWrapper}>
-            <div className={`${classes.item} ${classes['loading']}`} />
+            <div className={`${classes.item} ${classes['loading']}`}>
+                <Loading/>
+            </div>
         </div>
     } else {
-        return <div className={classes.itemWrapper}>
+        return <div className={props.selected ? `${classes.itemWrapper} ${classes.selected}` : classes.itemWrapper}>
             <div ref={itemRef}
                 className={classes.item}
                 onClick={onClick}
                 onMouseEnter={onMouseEnterItemHandler}
                 onMouseLeave={onMouseLeaveItemHandler}
                 style={{ backgroundImage: `url('https://www.bungie.net${itemData.data.displayProperties.icon}')` }}>
+                {itemData.quantity > 1 && <div className={classes.quantity}>x{itemData.quantity}</div>}
             </div>
             {showMenu && dropdownMenu()}
         </div>

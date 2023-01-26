@@ -176,8 +176,14 @@ export const fetchBucketEquipment = createAsyncThunk('bucketEquipment/fetchBucke
             }, 1000)
         })
     } else {
-        return fetch(`/api/profile/character/${getState().user.selectedCharacter}/equipment/bucket/${bucketHash}`)
+        let result = fetch(`/api/profile/character/${getState().user.selectedCharacter}/equipment/bucket/${bucketHash}`)
             .then(res => res.json());
+
+        if (result.error) {
+            throw new Error(result.error);
+        } else {
+            return result;
+        }
     }
 
 })

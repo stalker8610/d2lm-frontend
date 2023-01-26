@@ -1,8 +1,8 @@
 import React from 'react'
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItemDetails, itemRendered } from '@Redux/itemsSlice';
+import { fetchItemDetails, currentItemBecomeChanged, currentItemImgLoaded, currentItemRendered } from '@Redux/itemsSlice';
 import Error from '@Components/Common/Error/Error';
 import Loading from '@Components/Common/Loading/Loading';
 import classes from './ItemDetails.module.css'
@@ -18,42 +18,46 @@ const ItemDetails = (props) => {
     const status = useSelector(state => state.items.status);
     const error = useSelector(state => state.items.error);
 
-    const itemsAll = useSelector(state => state.items.items);
+    /* const itemsAll = useSelector(state => state.items.items); */
+    const [imgLoaded, setImgLoaded] = useState(false);
+    const isLoading = (status === 'loading' || (status === 'succeded' && !imgLoaded));
 
-    const isLoading = (status === 'loading');
-    const bgRef = useRef();
-   
     useEffect(() => {
 
         if (itemInstanceId && status === 'idle') {
             dispatch(fetchItemDetails(itemInstanceId));
+        } else if (itemInstanceId && status === 'succeeded') {
+            dispatch(currentItemRendered(itemInstanceId));
+            if (itemData?.screenshot) {
+                let img = new Image();
+                img.onload = () => {
+                    setImgLoaded(true);
+                    dispatch(currentItemImgLoaded());
+                }
+                img.src = `https://bungie.net${itemData.screenshot}`;
+            } else {
+                setImgLoaded(true);
+                dispatch(currentItemImgLoaded());
+            }
         }
 
-        return () => {
-            dispatch(itemRendered());
-        }
-
-    }, [itemInstanceId, dispatch]);
-
+    }, [itemInstanceId, itemData, status, dispatch]);
 
     const Stat = (props) => {
-        return <div className={classes.regular}>
-            <span> {props.name}</span>
-            <span> {props.value}</span>
+
+        return <div className={classes.stat}>
+            <div className={classes.statName}>
+                {props.name}
+            </div>
+            {!props.odd && <div className={classes.statValue}>
+                <div className={classes.statBar}>
+                    <div style={{ width: props.value + '%'}}/>
+                </div>
+            </div>}
+            <div>
+                {props.value}
+            </div>
         </div>
-    }
-
-    const setBodyBackground = () => {
-        document.body.style.backgroundImage = `url(https://bungie.net${itemData.screenshot})`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundRepeat = 'no-repeat';
-    }
-
-    const onLoadBgImage = () => {
-        //avoid of loading background image line by line
-        /* bgRef.current.className += " " + classes.loaded; */
-    
-        setBodyBackground();
     }
 
     if (error) {
@@ -62,29 +66,29 @@ const ItemDetails = (props) => {
         return <Loading />
     } else if (itemData) {
 
-   
-        
         return (
-            
-                
-            <div ref={bgRef} className={classes.background} style={{ backgroundImage: "url(" + `https://bungie.net${itemData.screenshot}` + ")" }}>
-                <img src={`https://bungie.net${itemData.screenshot}`} onLoad={onLoadBgImage} style={{ display: 'none' }} />
-                
-                
-                
-                <div className={classes.panel}>
+
+            <div className={classes.panel}>
+                <div className={classes.header}>
                     <div className={classes.large}>
                         {itemData.displayProperties.name}
                     </div>
                     <div className={classes.regular}>
                         {itemData.itemTypeDisplayName}
                     </div>
-                    <hr style={{ marginTop: 10 + 'px' }} />
-                    {itemData.stats.map((el) =>
-                        <Stat key={el.statHash} name={el.name} value={el.value} />)
-                    }
+                </div>
+                <div className={classes.ordinaryStats}>
+                    {itemData.stats.map(el =>
+                        !el.odd && <Stat key={el.statHash} name={el.displayProperties.name} value={el.value} odd={el.odd} />
+                    )}
+                </div>
+                <div className={classes.oddStats}>
+                        {itemData.stats.map(el =>
+                            el.odd && <Stat key={el.statHash} name={el.displayProperties.name} value={el.value} odd={el.odd} />
+                        )}
                 </div>
             </div>
+
         )
     }
 

@@ -1,5 +1,5 @@
 /* import 'bootstrap/dist/css/bootstrap.min.css'; */
-import { React, useEffect } from 'react'
+import { React, useEffect, useState } from 'react'
 import './App.css'
 import UserPage from './Components/UserPage/UserPage';
 import Header from './Components/Header/Header'
@@ -12,6 +12,8 @@ import { fetchUser } from '@Redux/userSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import defaultBackground from '@Assets/bg2.jpg';
+import { getCurrentItemBgUrl } from '@Redux/itemsSlice';
 
 function App() {
 
@@ -42,10 +44,20 @@ function App() {
         }
     }, [user, fetchStatus, dispatch]);
 
+
+    const currentItemBgSrc = useSelector(getCurrentItemBgUrl);
+    const [bgSrc, setBgSrc] = useState(defaultBackground);
+
+    useEffect(() => {
+        const bg = currentItemBgSrc ? `url('https://bungie.net${currentItemBgSrc}')` : `url('${defaultBackground}')`;
+        setBgSrc(bg);
+    }, [currentItemBgSrc])
+
+    
     return (
         <div className='appWrapper'>
             <Header loading={isLoading} user={user?.main} />
-            <div className='appWrapperContent'>
+            <div className='appWrapperContent' style={{backgroundImage: bgSrc}}>
                 {errorMessage && <Error message={`Error while login: ${errorMessage}`} />}
                 {isLoading && <Loading />}
                 {!isLoading && !user && <SignInOffer />}

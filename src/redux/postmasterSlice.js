@@ -39,16 +39,21 @@ const postmasterSlice = createSlice({
                     state.pullError = '';
                 })
                 .addCase(pullFromPostmaster.fulfilled, (state, action) => {
-                    if (action.payload.Message === 'Ok') {
-                        state.status = 'succeeded';
-                        state.pullError = '';
+
+                    state.status = 'succeeded';
+                    state.pullError = '';
+
+                    const itemData = state.items.find(item => item.itemHash === action.payload.itemHash
+                        && item.itemInstanceId === action.payload.itemInstanceId);
+
+                    if (itemData?.quantity > 1) {
+                        itemData.quantity--
+                    } else {
                         state.items = state.items.filter(item =>
                             !(item.itemHash === action.payload.itemHash
                                 && item.itemInstanceId === action.payload.itemInstanceId));
-                    } else {
-                        state.status = 'failed';
-                        state.pullError = action.payload.Message;
                     }
+
                 })
                 .addCase(pullFromPostmaster.rejected, (state, action) => {
                     state.status = 'failed';
@@ -64,6 +69,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemHash": 2979281381,
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 3,
                 "data": {
                     "displayProperties": {
                         "description": "A collection of universal components that can be used to infuse power between gear items. Can be purchased from the Gunsmith or acquired from special reward sources.",
@@ -80,6 +86,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848686461758",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -95,6 +102,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemHash": 616392721,
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 15,
                 "data": {
                     "displayProperties": {
                         "description": "An odd key earned by completing the Dares of Eternity.\n\nCan be used to open a chest in Xûr's Treasure Hoard.",
@@ -111,6 +119,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848752151403",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -127,6 +136,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529846952642648",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -143,6 +153,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848786204206",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "An engram with complex markers.\n\nContains a random Legendary Crucible weapon or armor piece.",
@@ -159,6 +170,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848786203886",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "An engram with complex markers.\n\nContains a random Legendary Crucible weapon or armor piece.",
@@ -175,6 +187,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848711769051",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -191,6 +204,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529846974160995",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -207,6 +221,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848793726899",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "An engram with a predestined outcome.\n\nContains a new Exotic if any of the possible rewards remain to be collected. Preview contents for possible rewards.",
@@ -223,6 +238,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848718064340",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "",
@@ -239,6 +255,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529847879283938",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -255,6 +272,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848786204456",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "",
@@ -271,6 +289,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848793728902",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -287,6 +306,7 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
                 "itemInstanceId": "6917529848725834569",
                 "location": 1,
                 "bucketHash": 215593132,
+                "quantity": 1,
                 "data": {
                     "displayProperties": {
                         "description": "A mysterious engram containing a wide variety of Legendary gear. Its contents are susceptible to influence. Rahool in the Tower can decrypt its basic form, but vendors in the H.E.L.M. can unlock its deeper secrets.",
@@ -309,14 +329,19 @@ export const fetchPostmaster = createAsyncThunk("postmaster/fetch", async (_, th
         })
     } else {
 
-        return await fetch(`/api/profile/character/${thunkAPI.getState().user.selectedCharacter}/postmaster`)
-            .then(res => res.json())
+        let result = await fetch(`/api/profile/character/${thunkAPI.getState().user.selectedCharacter}/postmaster`).then(res => res.json());
+
+        if (result.error) {
+            throw new Error(result.error);
+        } else {
+            return result;
+        }
 
     }
 })
 
 export const pullFromPostmaster = createAsyncThunk("postmaster/pull", async ({ itemHash, itemInstanceId }, thunkAPI) => {
-    const serverResponseSample = [];
+    const serverResponseSample = { itemHash, itemInstanceId };
 
     if (process.env.NODE_ENV === 'development') {
         return new Promise((resolve, reject) => {
@@ -334,7 +359,12 @@ export const pullFromPostmaster = createAsyncThunk("postmaster/pull", async ({ i
             })
             .then(res => res.json());
 
-        return { ...result, itemHash, itemInstanceId };
+        if (result.error) {
+            throw new Error(result.error);
+        } else {
+            return { ...result, itemHash, itemInstanceId };
+        }
+
     }
 })
 
