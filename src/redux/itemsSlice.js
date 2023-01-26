@@ -206,17 +206,24 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
         return Promise.resolve(item);
     } else {
 
+        const oddStatsHashes = [
+            2961396640, //charge time
+            3871231066, //magazine
+            4284893193, //rounds per minute
+            2715839340, //recoil
+        ]
+
         if (process.env.NODE_ENV === 'development') {
             return await new Promise((resolve, reject) => {
                 setTimeout(() => {
 
                     let result = serverResponseSample;
 
-                    let ordinaryStats = result.stats.filter(el => !(el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
-                    .sort((a, b) => a.index - b.index).map(el=> ({...el, 'odd': false}));
+                    let ordinaryStats = result.stats.filter(el => !oddStatsHashes.includes(el.hash))
+                        .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': false }));
 
-                    let oddStats = result.stats.filter(el => (el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
-                    .sort((a, b) => a.index - b.index).map(el => ({...el, 'odd': true}));
+                    let oddStats = result.stats.filter(el => oddStatsHashes.includes(el.hash))
+                        .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': true }));
 
                     //reject('some error');
                     resolve({ ...result, 'stats': ordinaryStats.concat(oddStats) });
@@ -230,14 +237,13 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
                 throw new Error(result.error);
             } else {
 
-                const stats = result.stats.filter(el => !(el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
-                    .sort((a, b) => a.index - b.index)
-                    .concat(
-                        result.stats.filter(el => (el.hash === 3871231066 || el.hash === 4284893193 || el.hash === 2715839340))
-                            .sort((a, b) => a.index - b.index)
-                    );
+                let ordinaryStats = result.stats.filter(el => !oddStatsHashes.includes(el.hash))
+                    .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': false }));
 
-                return { ...result, stats };
+                let oddStats = result.stats.filter(el => oddStatsHashes.includes(el.hash))
+                    .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': true }));
+
+                return { ...result, 'stats': ordinaryStats.concat(oddStats) };
             }
         }
 

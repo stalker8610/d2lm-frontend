@@ -1,5 +1,5 @@
 /* import 'bootstrap/dist/css/bootstrap.min.css'; */
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useLayoutEffect, useState } from 'react'
 import './App.css'
 import UserPage from './Components/UserPage/UserPage';
 import Header from './Components/Header/Header'
@@ -48,7 +48,7 @@ function App() {
     const currentItemBgSrc = useSelector(getCurrentItemBgUrl);
     const [bgSrc, setBgSrc] = useState(defaultBackground);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const bg = currentItemBgSrc ? `url('https://bungie.net${currentItemBgSrc}')` : `url('${defaultBackground}')`;
         setBgSrc(bg);
     }, [currentItemBgSrc])

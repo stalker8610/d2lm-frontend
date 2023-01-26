@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItemDetails, currentItemBecomeChanged, currentItemImgLoaded, currentItemRendered } from '@Redux/itemsSlice';
+import { fetchItemDetails, currentItemImgLoaded, currentItemRendered } from '@Redux/itemsSlice';
 import Error from '@Components/Common/Error/Error';
 import Loading from '@Components/Common/Loading/Loading';
 import classes from './ItemDetails.module.css'
@@ -51,7 +51,7 @@ const ItemDetails = (props) => {
             </div>
             {!props.odd && <div className={classes.statValue}>
                 <div className={classes.statBar}>
-                    <div style={{ width: props.value + '%'}}/>
+                    <div style={{ width: props.value * props.statCategory + '%'}}/>
                 </div>
             </div>}
             <div>
@@ -79,12 +79,12 @@ const ItemDetails = (props) => {
                 </div>
                 <div className={classes.ordinaryStats}>
                     {itemData.stats.map(el =>
-                        !el.odd && <Stat key={el.statHash} name={el.displayProperties.name} value={el.value} odd={el.odd} />
+                        !el.odd && <Stat key={el.hash} name={el.displayProperties.name} value={el.value} odd={el.odd} statCategory={el.statCategory}/>
                     )}
                 </div>
                 <div className={classes.oddStats}>
                         {itemData.stats.map(el =>
-                            el.odd && <Stat key={el.statHash} name={el.displayProperties.name} value={el.value} odd={el.odd} />
+                            el.odd && <Stat key={el.hash} name={el.displayProperties.name} value={el.value} odd={el.odd} statCategory={el.statCategory}/>
                         )}
                 </div>
             </div>
