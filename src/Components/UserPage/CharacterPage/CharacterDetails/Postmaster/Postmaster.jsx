@@ -1,13 +1,13 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import Item from '../Item/Item';
+/* import { useParams } from 'react-router-dom' */
+/* import Item from '../Items/RegularItem/Item'; */
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPostmaster, pullFromPostmaster } from '@Redux/postmasterSlice';
+import { fetchPostmaster/* , pullFromPostmaster */ } from '@Redux/postmasterSlice';
 import Loading from '@Components/Common/Loading/Loading';
 import Error from '@Components/Common/Error/Error';
-
-
+import PostmasterItem from '../Items/PostmasterItem/PostmasterItem';
+import classes from './Postmaster.module.scss'
 
 const Postmaster = () => {
 
@@ -27,11 +27,11 @@ const Postmaster = () => {
     }, []);
 
 
-    const onTake = async (itemHash, itemInstanceId) => {
+    /* const onTake = async (itemHash, itemInstanceId) => {
         dispatch(pullFromPostmaster({ itemHash, itemInstanceId }));
-    }
+    } */
 
-    const renderTable = () => {
+    /* const renderTable = () => {
 
         const renderedItems = postmasterItems.map((item) => <td key={item.itemInstanceId ? item.itemInstanceId : item.itemHash}>
             <Item key={item.itemInstanceId ? item.itemInstanceId : item.itemHash} id={item.itemInstanceId} hash={item.itemHash}
@@ -55,14 +55,39 @@ const Postmaster = () => {
             </tbody>
         </table>
 
+    } */
+
+
+    const items = () => {
+        return <div className={classes.postmaster}>
+            <div className={classes.title}>
+                Postmaster items
+            </div>
+            {!postmasterItems.length && <div>It's empty now</div>}
+            {postmasterItems.map((item) =>
+                <PostmasterItem
+                    key={item.itemInstanceId || item.itemHash}
+                    id={item.itemInstanceId}
+                    hash={item.itemHash}
+                    item={item}
+                />)}
+        </div>
     }
 
-    return <div>
-        {error && <Error message={`Error occured while fetch postmaster items: ${error}`} />}
-        {pullError && <Error message={`Error occured while pull item from postmaster: ${pullError}`} />}
-        {isLoading && <Loading />}
-        {!isLoading && postmasterItems.length && renderTable()}
+    return <div className={classes.wrapper}>
+        {!isLoading && items()}
+        {error && <div className={classes.errorWrapper}>
+            <Error message={`Error occured while fetch postmaster items: ${error}`} />
+        </div>}
+        {pullError && <div className={classes.errorWrapper}>
+            <Error message={`Error occured while pull item from postmaster: ${pullError}`} />
+        </div>}
+        {isLoading && <div className={classes.loadingWrapper}>
+            <Loading />
+        </div>}
+        {/* { !isLoading && itemInstanceId && <ItemDetails /> } */}
     </div>
+    
 }
 
 export default Postmaster

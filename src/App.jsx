@@ -1,18 +1,17 @@
 /* import 'bootstrap/dist/css/bootstrap.min.css'; */
 import { React, useEffect, useLayoutEffect, useState } from 'react'
-import './App.css'
-import UserPage from './Components/UserPage/UserPage';
-import Header from './Components/Header/Header'
-import Loading from './Components/Common/Loading/Loading'
-import SignInOffer from './Components/SignInOffer/SignInOffer';
-import Footer from './Components/Footer/Footer'
+import './App.scss'
+import UserPage from '@Components/UserPage/UserPage';
+import Header from '@Components/Header/Header'
+import Loading from '@Components/Common/Loading/Loading'
+import SignInOffer from '@Components/SignInOffer/SignInOffer';
+import Footer from '@Components/Footer/Footer'
 import Error from '@Components/Common/Error/Error';
 
 import { fetchUser } from '@Redux/userSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import defaultBackground from '@Assets/bg2.jpg';
 import { getCurrentItemBgUrl } from '@Redux/itemsSlice';
 
 function App() {
@@ -36,7 +35,7 @@ function App() {
 
     useEffect(() => {
         document.title = user ? `${user.main.name}'s Destiny 2 Loot Manager` : 'Destiny 2 Loot Manager';
-    }, [user, dispatch]);
+    }, [user]);
 
     useEffect(() => {
         if (fetchStatus === 'idle') {
@@ -46,19 +45,25 @@ function App() {
 
 
     const currentItemBgSrc = useSelector(getCurrentItemBgUrl);
-    const [bgSrc, setBgSrc] = useState(defaultBackground);
+    const [bgSrc, setBgSrc] = useState(null);
 
     useLayoutEffect(() => {
-        const bg = currentItemBgSrc ? `url('https://bungie.net${currentItemBgSrc}')` : `url('${defaultBackground}')`;
-        setBgSrc(bg);
+        if (window.innerWidth>=576 && currentItemBgSrc){
+            setBgSrc(`url('https://bungie.net${currentItemBgSrc}')`);
+        } else {
+            setBgSrc(null);
+        }
     }, [currentItemBgSrc])
 
     
     return (
         <div className='appWrapper'>
             <Header loading={isLoading} user={user?.main} />
-            <div className='appWrapperContent' style={{backgroundImage: bgSrc}}>
-                {errorMessage && <Error message={`Error while login: ${errorMessage}`} />}
+            <div className='appWrapperContent' style={bgSrc && {backgroundImage: bgSrc}}>
+                {errorMessage && 
+                <div className='errorWrapper'> 
+                    <Error message={`Error while login: ${errorMessage}`} />
+                </div>}
                 {isLoading && <Loading />}
                 {!isLoading && !user && <SignInOffer />}
                 {!isLoading && user && <UserPage />}

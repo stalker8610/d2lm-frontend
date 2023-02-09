@@ -1,0 +1,68 @@
+@use '../../../styles' as *;
+
+.account {
+    
+    @extend .hoverable-text;
+    
+    display: block;
+    position: relative;
+    min-width: 140px;
+    max-width: 170px;
+
+    img {
+        $size: 32px;
+        width: $size;
+        height: $size;
+        border-radius: $size;
+    }
+
+    .name {
+        padding: 0 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .view {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: $header-height;
+        background-color: $header-footer-bg-color;
+        position: relative;
+        z-index: 1;
+    }
+
+    .dropdown-content {
+        @extend .dropdown-menu;
+        
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 5px;
+        overflow: auto;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.8);  
+        z-index: 0;
+        border-radius: 0 0 5px 5px;
+        transition: top 0.3s;
+
+        span {
+            padding: 0 5px;
+        }
+    }
+
+    &:hover .dropdown-content {
+        display: block;
+        top: 55px;
+    }
+
+    @include viewport("md") {
+        
+        .view {
+            justify-content: flex-end;  
+        }
+
+    }
+
+}

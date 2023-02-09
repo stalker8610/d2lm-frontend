@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { characterSelected } from '@Redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-import classes from './CharacterSelector.module.css'
+import classes from './CharacterSelector.module.scss'
 
 export default () => {
 

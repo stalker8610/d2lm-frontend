@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import classes from './UsedEquipment.module.css'
-import Item from '../Item/Item'
-import Loading from '@Components/Common/Loading/Loading'
+import classes from './UsedEquipment.module.scss'
+/* import Item from '../Item/Item' */
+import EquippedItem from '../Items/EquippedItem/EquippedItem'
 import Error from '@Components/Common/Error/Error'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { fetchUsedEquipment } from '@Redux/usedEquipmentSlice'
-import ItemDetails from '../Item/ItemDetails/ItemDetails'
+import ItemDetails from '../Items/ItemDetails/ItemDetails'
 
 const UsedEquipment = () => {
 
@@ -17,7 +17,6 @@ const UsedEquipment = () => {
     const isLoading = (status === 'loading');
 
     const { itemInstanceId } = useParams();
-    const navigate = useNavigate();
 
     const selectedCharacter = useSelector(state => state.user.selectedCharacter);
     const usedEquipment = useSelector(state => state.usedEquipment.items);
@@ -26,27 +25,17 @@ const UsedEquipment = () => {
         if (status === 'idle') {
             dispatch(fetchUsedEquipment());
         }
-
     }, [selectedCharacter, status, dispatch]);
 
-    const onClick = (itemInstanceId) => {
-        navigate(`/equipment/item/${itemInstanceId}`, { replace: true });
-    }
 
     const renderItem = (item) => {
-
-        if (isLoading) {
-            return <Item key={Math.random()} selector={()=>{}} loading />
-        } else if (error) {
-            return <Item key={Math.random()} selector={()=>{}} notFound />
-        } else {
-            return <Item key={item.itemInstanceId} id={item.itemInstanceId} hash={item.itemHash}
-                selector={state => state.usedEquipment.items.find((value) => value.itemInstanceId === item.itemInstanceId)}
-                availableCommands={['showItem', 'showBucket']}
-                onClick={()=>onClick(item.itemInstanceId)}
-                selected={item.itemInstanceId === itemInstanceId}
-                loading={isLoading} />
-        }
+        return <EquippedItem
+            notFound={error}
+            loading={isLoading}
+            key={item?.itemInstanceId || Math.random()}
+            selected={item?.itemInstanceId === itemInstanceId}
+            item={item}
+        />
     }
 
     const renderEquipment = () => {
@@ -86,7 +75,9 @@ const UsedEquipment = () => {
     return (
         <div className={classes.wrapper}>
             {renderEquipment()}
-            {error && <Error message={`Error occured: ${error}`} />}
+            {error && <div className={classes.errorWrapper}>
+                <Error message={`Error occured: ${error}`} />
+            </div>}
             {itemInstanceId && <ItemDetails />}
         </div>
     )

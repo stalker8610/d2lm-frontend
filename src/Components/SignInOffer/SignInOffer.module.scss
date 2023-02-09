@@ -1,0 +1,17 @@
+@use '../../styles' as *;
+
+.signInOffer {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    div {
+        width: 80%;
+        font-size: 1.3em;
+        color: $inactive-text-color;
+        text-align: center;
+    }
+
+}

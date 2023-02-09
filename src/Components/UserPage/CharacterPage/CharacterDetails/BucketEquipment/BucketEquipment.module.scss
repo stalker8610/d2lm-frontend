@@ -1,0 +1,36 @@
+@use '../../../../../styles' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 752px;
+}
+
+.loadingWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.bucket {
+    @extend .panel;
+
+    display: inline-block;
+    padding: 5px;
+    margin: 0 5px 5px 0;
+    position: relative;
+
+    @include viewport('sm') {
+        /* width: 80%; */
+    }
+    
+}
+
+.errorWrapper {
+    position: relative;
+    margin-right: 5px;
+}

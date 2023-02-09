@@ -1,0 +1,124 @@
+@use '../../../../../../styles' as *;
+
+.wrapper {
+    position: relative;
+    width: 100%;
+
+    @include viewport('sm') {
+        width: auto;
+    }
+
+}
+
+.loadingWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+.panel {
+    position: relative;
+    background-color: rgba(119, 135, 159, 0.4);
+    min-width: 300px;
+    margin-right: 5px;
+    padding: 10px;
+    color: whitesmoke;
+
+    @include viewport('sm') {
+        max-width: 450px;
+    }
+
+}
+
+.background {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+
+    @include viewport('sm'){
+        display: none;
+    }
+}
+
+.header {
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+    position: relative;
+
+}
+
+.ordinaryStats {
+    padding-top: 10px;
+    position: relative;
+    
+    .stat {
+        display: flex;
+        justify-content: space-between;
+        color: whitesmoke;
+        font-size: medium;
+        padding-bottom: 5px;
+    }
+}
+
+.large {
+    font-size: xx-large;
+}
+
+
+.oddStats {
+
+    position: relative;
+
+    .stat {
+        justify-content: flex-start;
+        font-size: 1.2em;
+    }
+
+    .statName {
+        padding-left: 10px;
+    }
+
+}
+
+.statName {
+    float: left;
+    width: 40%;
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.statValue {
+    display: flex;
+    justify-items: flex-end;
+    float: left;
+    width: calc(100% - 40% - 3em);
+    height: 100%;
+}
+
+.statBar {
+    border: 1px solid #EEE;
+    height: 19px;
+    width: 100%;
+}
+
+.statBar>div {
+    height: 100%;
+    background-color: #EEE;
+}
+
+.statValue~div {
+    width: 3em;
+    text-align: right;
+}

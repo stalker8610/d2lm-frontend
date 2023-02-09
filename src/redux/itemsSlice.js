@@ -203,7 +203,7 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
 
     const item = getState().items.items.find((value) => value.itemInstanceId === itemInstanceId);
     if (item) {
-        return Promise.resolve(item);
+        return await Promise.resolve(item);
     } else {
 
         const oddStatsHashes = [
@@ -256,7 +256,12 @@ export const { currentItemRendered,
 } = itemsSlice.actions;
 
 export const getCurrentItemBgUrl = (state) => {
-    return state.items.items.find(el => el.itemInstanceId === state.items.currentItemId)?.screenshot;
+
+    if (state.items.currentItemId){
+        return state.items.items.find(el => el.itemInstanceId === state.items.currentItemId)?.screenshot;
+    } else {
+        return null;
+    } 
 };
 
 export default itemsSlice.reducer

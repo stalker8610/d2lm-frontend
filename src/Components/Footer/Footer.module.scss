@@ -1,16 +1,17 @@
+@use '../../styles' as *;
+
 .appFooter {
+    
+    grid-area: footer;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 55px;
-    background-color: var(--header-bg-color);
+    background-color: $header-footer-bg-color;
     text-shadow: 0 2px 2px black;
-    box-shadow: 0 -2px 5px var(--box-shadow-dark-color);
-    position: fixed;
-    bottom:0;
-    width: 100%;
+    box-shadow: 0 -2px 5px $box-shadow-dark-color;
+    z-index: 0;
 }
-
 
 .form-text {
     margin-top: .25rem;

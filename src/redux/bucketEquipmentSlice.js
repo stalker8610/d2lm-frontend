@@ -4,6 +4,7 @@ import { characterSelected } from "./userSlice";
 const getInitialState = () => {
     return {
         items: [],
+        bucketDescription: null,
         status: 'idle',
         error: null,
     }
@@ -23,7 +24,8 @@ const bucketEquipmentSlice = createSlice({
             .addCase(fetchBucketEquipment.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.error = '';
-                state.items = [...action.payload];
+                state.items = [...action.payload.items];
+                state.bucketDescription = action.payload.bucketDisplayProperties;
             })
             .addCase(fetchBucketEquipment.rejected, (state, action) => {
                 state.status = 'failed';
@@ -37,141 +39,156 @@ const bucketEquipmentSlice = createSlice({
 
 export const fetchBucketEquipment = createAsyncThunk('bucketEquipment/fetchBucketEquipment', async (bucketHash, { getState }) => {
 
-    const serverResponseSample = [
-        {
-            "itemHash": 3055790362,
-            "itemInstanceId": "6917529761161902212",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Сокольничий",
-                    "icon": "/common/destiny2_content/icons/b5bfafe4c2defb3b4b190803a79513da.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Револьвер",
-                "hash": 3055790362
+    const serverResponseSample = {
+        "items": [
+            {
+                "itemHash": 1473821207,
+                "itemInstanceId": "6917529852713401791",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Revision Zero",
+                        "icon": "/common/destiny2_content/icons/3bf81dd785826e06f190ab1f7d9b27a0.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Pulse Rifle",
+                    "hash": 1473821207
+                }
+            },
+            {
+                "itemHash": 882778888,
+                "itemInstanceId": "6917529859349644971",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Rose",
+                        "icon": "/common/destiny2_content/icons/ee1994e1724c99306a8cd98a16b48d41.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Hand Cannon",
+                    "hash": 882778888
+                }
+            },
+            {
+                "itemHash": 882778888,
+                "itemInstanceId": "6917529860022320938",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Rose",
+                        "icon": "/common/destiny2_content/icons/ee1994e1724c99306a8cd98a16b48d41.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Hand Cannon",
+                    "hash": 882778888
+                }
+            },
+            {
+                "itemHash": 3849810018,
+                "itemInstanceId": "6917529849244212097",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Pardon Our Dust",
+                        "icon": "/common/destiny2_content/icons/eb72e934debaa543d03a38e210a56b45.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Grenade Launcher",
+                    "hash": 3849810018
+                }
+            },
+            {
+                "itemHash": 1509167284,
+                "itemInstanceId": "6917529844447977433",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Blood Feud",
+                        "icon": "/common/destiny2_content/icons/622276a6966fa84c3aa1d30543022ccb.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Submachine Gun",
+                    "hash": 1509167284
+                }
+            },
+            {
+                "itemHash": 4070357005,
+                "itemInstanceId": "6917529846493756778",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Seventh Seraph Carbine",
+                        "icon": "/common/destiny2_content/icons/6dc41476bdb6ffbb6ab7a8bce24f9216.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Auto Rifle",
+                    "hash": 4070357005
+                }
+            },
+            {
+                "itemHash": 204878059,
+                "itemInstanceId": "6917529854147326841",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "Malfeasance",
+                        "icon": "/common/destiny2_content/icons/0c2816822b0a1787157f1e90d3bd057c.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Hand Cannon",
+                    "hash": 204878059
+                }
+            },
+            {
+                "itemHash": 1594120904,
+                "itemInstanceId": "6917529823819985541",
+                "location": 1,
+                "bucketHash": 1498876634,
+                "quantity": 1,
+                "data": {
+                    "displayProperties": {
+                        "description": "",
+                        "name": "No Time to Explain",
+                        "icon": "/common/destiny2_content/icons/b4815d2060876f82559502e67bf9c3e3.jpg",
+                        "hasIcon": true
+                    },
+                    "itemTypeDisplayName": "Pulse Rifle",
+                    "hash": 1594120904
+                }
             }
-        },
-        {
-            "itemHash": 2856514843,
-            "itemInstanceId": "6917529815808307515",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Синкопа-53",
-                    "icon": "/common/destiny2_content/icons/10a4ea85e9f4498d9850b073b660c4ec.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Импульсная винтовка",
-                "hash": 2856514843
-            }
-        },
-        {
-            "itemHash": 4100775158,
-            "itemInstanceId": "6917529815828706302",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Пиццикато-22",
-                    "icon": "/common/destiny2_content/icons/26c42c46b900488d918382e939cf5006.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Пистолет-пулемет",
-                "hash": 4100775158
-            }
-        },
-        {
-            "itemHash": 829330711,
-            "itemInstanceId": "6917529774479068672",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Узы мира",
-                    "icon": "/common/destiny2_content/icons/067eefdf127c32b4ffd4724be408fdb2.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Пистолет",
-                "hash": 829330711
-            }
-        },
-        {
-            "itemHash": 2907129556,
-            "itemInstanceId": "6917529798311802097",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Буря",
-                    "icon": "/common/destiny2_content/icons/1d3733c665f01b4adea1c5f65558ddde.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Револьвер",
-                "hash": 2907129556
-            }
-        },
-        {
-            "itemHash": 3413860062,
-            "itemInstanceId": "6917529529470811540",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Компаньон",
-                    "icon": "/common/destiny2_content/icons/c5fb814d409f1c0a47e89c5062e2182b.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Дробовик",
-                "hash": 3413860062
-            }
-        },
-        {
-            "itemHash": 3973202132,
-            "itemInstanceId": "6917529774718843175",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Шип",
-                    "icon": "/common/destiny2_content/icons/ba392591a98adb436d5f34db5af635c1.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Револьвер",
-                "hash": 3973202132
-            }
-        },
-        {
-            "itemHash": 3184681056,
-            "itemInstanceId": "6917529511425075616",
-            "location": 1,
-            "bucketHash": 1498876634,
-            "data": {
-                "displayProperties": {
-                    "description": "",
-                    "name": "Разметист",
-                    "icon": "/common/destiny2_content/icons/a490a0c7deef34f14fbae4959a578f9e.jpg",
-                    "hasIcon": true
-                },
-                "itemTypeDisplayName": "Дробовик",
-                "hash": 3184681056
-            }
+        ],
+        "bucketDisplayProperties": {
+            "description": "Weapons that deal kinetic damage. Most effective when dealing with unshielded enemies.",
+            "name": "Kinetic Weapons",
+            "hasIcon": false
         }
-    ]
+    }
 
     if (process.env.NODE_ENV === 'development') {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                //reject('some error');
+                /* reject('some error'); */
                 resolve(serverResponseSample);
             }, 1000)
         })

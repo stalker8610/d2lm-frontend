@@ -1,0 +1,101 @@
+@use '../../../styles' as *;
+
+.container {
+    grid-area: selector;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px 5px 5px;
+
+    @include viewport('md') {
+        flex-direction: column;
+        width: 340px;
+        height: fit-content;
+    }
+}
+
+
+.badge {
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    opacity: 0.6;
+    padding: 0 10px;
+    width: 100%;
+    height: 96px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 0 5px 0;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0);
+
+    &:hover {
+        
+        border: 1px solid #AAA;
+
+        @include viewport('md') {
+            width: 100%;
+            outline: 1px solid #AAA;
+            outline-offset: 1px;
+            border: 1px solid rgba(0, 0, 0, 0);
+        }
+        
+    }
+    
+    &:hover, &.active {
+        opacity: 1.0;
+    }
+
+    @include viewport('sm') {
+        min-width: 150px;
+        max-width: 320px;
+        width: 29.5%;
+    }
+
+    @include viewport('md') {
+        width: 100%;
+    }
+
+    .class {
+        position: absolute;
+        top: 10px;
+        right: 1vw;
+        font-size: 1.2em;
+        color: #FFF;
+
+        @include viewport('md') {
+            left: 95px;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+    }
+
+    .race {
+
+        position: absolute;
+        top: 40px;
+        right: 1vw;
+        color: #FFF;
+        font-size: 0.9em;
+
+        @include viewport('md') {
+            left: 95px;
+            color: rgba(200, 200, 200, 0.7);
+            font-size: 1em;
+        }
+    }
+
+    .light {
+
+        display: none;
+
+        @include viewport('md') {
+            display: block;
+            font-family: Arial, sans-serif;
+            position: absolute;
+            top: 5px;
+            right: 14px;
+            color: rgb(241, 201, 68);
+            font-size: 2em;
+        }
+    }
+
+}

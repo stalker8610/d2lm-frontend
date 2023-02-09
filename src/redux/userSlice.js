@@ -79,7 +79,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     if (process.env.NODE_ENV === 'development') {
         userData = await new Promise((resolve, reject) => {
             setTimeout(() => {
-                //reject(new Error('some error happened'));
+                /* reject(new Error('some error happened')); */
                 resolve(serverResponseSample)
             }, 1500)
         })

@@ -1,0 +1,19 @@
+@use '../../styles' as *;
+
+.userPage {
+    display: grid;
+    grid-template-areas: "selector" "content";
+    grid-template-rows: 106px auto;
+
+    @include viewport('sm') {
+        grid-template-rows: 106px auto;
+    }
+
+    @include viewport('md') {
+        background-size: cover;
+        background-position: center;
+        grid-template-areas: "selector content";
+        grid-template-columns: 350px auto;
+        transition: background-image 0.5s;
+    }
+}

@@ -1,5 +1,5 @@
 
-import classes from './SignInOffer.module.css';
+import classes from './SignInOffer.module.scss';
 
 const SignInOffer = () => {
     return <div className={classes.signInOffer}>

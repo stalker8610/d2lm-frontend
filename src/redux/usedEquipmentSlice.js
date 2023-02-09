@@ -451,7 +451,7 @@ export const fetchUsedEquipment = createAsyncThunk('usedEquipment/fetchUsedEquip
     if (process.env.NODE_ENV === 'development') {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                /* reject('some error'); */
+               /*  reject('some error'); */
                 resolve(serverResponseSample);
             }, 1000)
         })

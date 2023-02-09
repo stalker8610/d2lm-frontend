@@ -1,0 +1,24 @@
+@use './styles' as *;
+
+body {
+
+    margin: 0;
+    box-sizing: border-box;
+
+    font-family: $font-family;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    background-color: $bg-color;
+
+    a {
+        text-decoration: none;
+        color: $link-color;
+
+        &:hover, &:active {
+            color: $link-hover-color;
+        }
+
+    }
+
+}

@@ -1,0 +1,55 @@
+@use 'variables' as vars;
+
+.dropdown-menu {
+    
+    $-dropdown-bg-color: rgba(255, 255, 255, 0.9);
+    $-dropdown-bg-hover-color: rgba(202, 202, 202, 0.95);
+    $-dropdown-link-color: #111;
+    $-dropdown-link-hover-color: vars.$link-hover-color;
+    
+    a {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        color: $-dropdown-link-color;
+
+        &:link,
+        &:visited {
+            background-color: $-dropdown-bg-color;
+        }
+
+        &:hover,
+        &:active {
+            color: $-dropdown-link-hover-color;
+            background-color: $-dropdown-bg-hover-color;
+            transition: background-color 0.2s;
+        }
+    }
+}
+
+.hoverable-text {
+
+    cursor: pointer;
+    color: vars.$inactive-text-color;
+    
+    &:hover {
+        color: vars.$active-text-color;
+    }
+}
+
+.panel {
+    $-panel-bg-color: rgba(45, 47, 58, .7);
+    $-panel-box-shadow: 2px 2px 3px vars.$box-shadow-dark-color;
+
+    background-color: $-panel-bg-color;
+    box-shadow: $-panel-box-shadow;
+    color: #BBB;
+
+    .title {
+        font-size: 1.1em;
+        color: #AAA;
+        padding: 0 5px;
+    }
+
+    
+}

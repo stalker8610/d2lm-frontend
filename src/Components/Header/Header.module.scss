@@ -1,0 +1,66 @@
+@use '../../styles' as *;
+
+.header {
+    @extend .panel;
+
+    grid-area: header;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    min-height: 55px;
+    position: relative;
+    background-color: $header-footer-bg-color;
+    z-index: 1;
+
+    > div:first-child {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    @include viewport("sm") {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.ghost {
+    padding: 0px 10px;
+
+    $size: $header-height;
+    width: $size;
+    height: $size;
+
+    a {
+        
+        width: $size;
+        height: $size;
+        display: inline-block;
+
+        background: {
+            image: url('./ghost110x110.png');
+            size: $size;
+        }
+
+        &:hover {
+            background-image: url('./ghost110x110glow.png');
+            transition: background-image 0.4s;
+        }
+
+    }
+}
+
+.title {
+    display: inline-block;
+    font-size: 1.5em;
+    color: $inactive-text-color;
+    text-shadow: 1px 2px 2px black;
+    cursor: default;
+}
+
+.signInLink {
+    @extend .hoverable-text;
+    padding: 10px;
+}

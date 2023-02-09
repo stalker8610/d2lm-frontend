@@ -6,7 +6,7 @@ module.exports = {
     alias: {
       '@Assets': path.resolve(__dirname, 'src/assets/'),
       '@Redux': path.resolve(__dirname, 'src/redux/'),
-      '@Components': path.resolve(__dirname, 'src/Components/'),
+      '@Components': path.resolve(__dirname, 'src/components/'),
     },
   },
 };

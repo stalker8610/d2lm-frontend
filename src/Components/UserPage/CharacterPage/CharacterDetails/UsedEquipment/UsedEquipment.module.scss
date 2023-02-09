@@ -1,13 +1,15 @@
+@use '../../../../../styles';
+
 .wrapper{
     display: inline-block;
 }
 
 .weapons, .armor {
+    @extend .panel;
+
     display: inline-block;
-    background-color: var(--panel-bg-color);
     padding: 5px;
     margin: 0 5px 5px 0;
-    box-shadow: var(--panel-box-shadow);
     position: relative;
 }
 
@@ -19,7 +21,6 @@
     z-index: 1;
 }
 
-.title {
-    color: #AAA;
-    padding: 0 5px;
+.errorWrapper {
+    position: relative;
 }

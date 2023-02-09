@@ -3,11 +3,12 @@ import classes from './CharacterPage.module.css'
 import Nav from './CharacterNav/CharacterNav'
 import CharacterDetails from "./CharacterDetails/CharacterDetails"
 
-export default () => {
 
+const CharacterPage =  () => {
     return <div className={classes.wrapper}>
         <Nav></Nav>
         <CharacterDetails />
     </div >
-
 }
+
+export default CharacterPage;
