@@ -211,6 +211,7 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
             3871231066, //magazine
             4284893193, //rounds per minute
             2715839340, //recoil
+            447667954, //draw time
         ]
 
         if (process.env.NODE_ENV === 'development') {
@@ -219,10 +220,10 @@ export const fetchItemDetails = createAsyncThunk('items/fetchItemDetails', async
 
                     let result = serverResponseSample;
 
-                    let ordinaryStats = result.stats.filter(el => !oddStatsHashes.includes(el.hash))
+                    let ordinaryStats = result.stats.filter(el => !oddStatsHashes.includes(el.hash) && el.value<=100)
                         .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': false }));
 
-                    let oddStats = result.stats.filter(el => oddStatsHashes.includes(el.hash))
+                    let oddStats = result.stats.filter(el => oddStatsHashes.includes(el.hash) || el.value>100)
                         .sort((a, b) => a.index - b.index).map(el => ({ ...el, 'odd': true }));
 
                     //reject('some error');

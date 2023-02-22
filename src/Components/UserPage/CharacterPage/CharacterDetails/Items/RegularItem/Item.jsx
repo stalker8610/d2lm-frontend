@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
+import { isMobile } from 'react-device-detect'
 import { useSelector } from 'react-redux'
 import Loading from '@Components/Common/Loading/Loading'
 import DropdownMenu from './DropdownMenu/DropdownMenu'
@@ -90,8 +91,8 @@ const Item = (props) => {
         return <div className={props.selected ? `${classes.itemWrapper} ${classes.selected}` : classes.itemWrapper}>
             <div ref={itemRef}
                 className={classes.item}
-                onClick={onClick}
-                onMouseEnter={onMouseEnterItemHandler}
+                onClick={isMobile ? onMouseEnterItemHandler : onClick}
+                onMouseEnter={isMobile ? null: onMouseEnterItemHandler}
                 onMouseLeave={onMouseLeaveItemHandler}
                 style={{ backgroundImage: `url('https://www.bungie.net${itemData.data.displayProperties.icon}')` }}>
                 {itemData.quantity > 1 && <div className={classes.quantity}>x{itemData.quantity}</div>}

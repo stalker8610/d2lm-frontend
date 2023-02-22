@@ -24,6 +24,14 @@
         flex-direction: row;
         justify-content: space-between;
     }
+
+    .title {
+        display: inline-block;
+        font-size: 1.5em;
+        color: $inactive-text-color;
+        text-shadow: 1px 2px 2px black;
+        cursor: default;
+    }
 }
 
 .ghost {
@@ -52,13 +60,7 @@
     }
 }
 
-.title {
-    display: inline-block;
-    font-size: 1.5em;
-    color: $inactive-text-color;
-    text-shadow: 1px 2px 2px black;
-    cursor: default;
-}
+
 
 .signInLink {
     @extend .hoverable-text;

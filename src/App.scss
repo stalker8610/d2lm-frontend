@@ -5,7 +5,9 @@
     display: grid;
     grid-template-areas: "header" "content" "footer";
     grid-template-rows: $header-height*2 auto $footer-height;
-    min-height: 100vh;
+    min-height: 100dvh;
+
+    -webkit-tap-highlight-color: transparent;
 
     @include viewport('sm') {
         grid-template-rows: $header-height auto $footer-height;

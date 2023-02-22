@@ -7,6 +7,7 @@ const getInitialState = () => {
         status: 'idle',
         error: null,
         pullError: null,
+        bucketDescription: '',
     }
 }
 
@@ -25,7 +26,8 @@ const postmasterSlice = createSlice({
                 .addCase(fetchPostmaster.fulfilled, (state, action) => {
                     state.status = 'succeeded';
                     state.error = '';
-                    state.items = [...action.payload]
+                    state.items = [...action.payload.items];
+                    state.bucketDescription = action.payload.bucketDisplayProperties;
                 })
                 .addCase(fetchPostmaster.rejected, (state, action) => {
                     state.status = 'failed';
